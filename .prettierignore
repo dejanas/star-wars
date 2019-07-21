@@ -1,0 +1,7 @@
+package-lock.json
+node_modules
+.idea
+.nyc_output
+.serverless
+.vscode
+coverage
