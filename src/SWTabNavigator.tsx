@@ -2,17 +2,44 @@ import React from 'react';
 import {
     createMaterialTopTabNavigator,
     createAppContainer,
+    createStackNavigator,
   } from 'react-navigation';
 import SWList from './SWList'
-    
-  const AppContainer = createAppContainer(createMaterialTopTabNavigator({
+import SWDetail from './SWDetail';
 
-      People: <SWList url={"https://swapi.co/api/people"} field={"name"}/>,
-      Planets: <SWList url={"https://swapi.co/api/planets"} field={"name"}/>,
-      Films: <SWList url={"https://swapi.co/api/films"} field={"title"}/>,
-      Species: <SWList url={"https://swapi.co/api/species"} field={"name"}/>,
-      Starships: <SWList url={"https://swapi.co/api/starships"} field={"name"}/>,
-      Vehicles: <SWList url={"https://swapi.co/api/vehicles"} field={"name"}/>
+const TabPeopleStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/people', field:'name'}},
+  Details: SWDetail
+});
+const TabPlanetsStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/planets', field:'name'}},
+  Details: SWDetail,
+});
+const TabFilmsStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/films', field:'title'}},
+  Details: SWDetail,
+});
+const TabSpeciesStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/species', field:'name'}},
+  Details: SWDetail,
+});
+const TabStarshipsStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/starship', field:'name'}},
+  Details: SWDetail,
+});
+const TabVehiclesStack = createStackNavigator({
+  Tab: {screen: SWList, params: {url:'https://swapi.co/api/vehicles', field:'name'}},
+  Details:SWDetail,
+});
+    
+  export default createAppContainer(createMaterialTopTabNavigator({
+
+      People: {screen: TabPeopleStack, params: {url:'https://swapi.co/api/people', field:'name'}},
+      Planets: {screen: TabPlanetsStack, params: {url:'https://swapi.co/api/planets', field:'name'}},
+      Films: {screen: TabFilmsStack, params: {url:'https://swapi.co/api/films', field:'title'}},
+      Species: {screen: TabSpeciesStack, params: {url:"https://swapi.co/api/species", field:"name"}},
+      Starships: {screen: TabStarshipsStack, params: {url:"https://swapi.co/api/starship", field:"name"}},
+      Vehicles: {screen: TabVehiclesStack, params: {url:"https://swapi.co/api/vehicles", field:"name"}}
     },
       {
         tabBarPosition: 'top',
@@ -38,34 +65,3 @@ import SWList from './SWList'
       }
       },
     ));
-
-    // const TabPeopleStack = createStackNavigator({
-    //   Tab: () => <SWList url={"https://swapi.co/api/people"} field={"name"}/>,
-    //   Details: () => <DetailsScreen/>
-    // });
-    // const TabPlanetsStack = createStackNavigator({
-    //   Tab: () => <SWList url={"https://swapi.co/api/planets"} field={"name"}/>,
-    //   Details: () =>   <DetailsScreen/>,
-    // });
-    // const TabFilmsStack = createStackNavigator({
-    //   Tab: () => <SWList url={"https://swapi.co/api/films"} field={"title"}/>,
-    //   Details: () =>   <DetailsScreen/>,
-    // });
-    // const TabSpeciesStack = createStackNavigator({
-    //   Tab: () =>  <SWList url={"https://swapi.co/api/species"} field={"name"}/>,
-    //   Details: () =>   <DetailsScreen/>,
-    // });
-    // const TabStarshipsStack = createStackNavigator({
-    //   Tab: () =>  <SWList url={"https://swapi.co/api/starships"} field={"name"}/>,
-    //   Details: () =>   <DetailsScreen/>,
-    // });
-    // const TabVehiclesStack = createStackNavigator({
-    //   Tab: () =>  <SWList url={"https://swapi.co/api/vehicles"} field={"name"}/>,
-    //   Details: () =>  <DetailsScreen/>,
-    // });
-
- export default class SWTabNavigator extends React.Component{
-  render() {
-    return <AppContainer />;
-  }
-}

@@ -2,17 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Card, Image } from 'react-native-elements';
-  
- export interface DetailProps {
-  category: string,
-  id: string
-  title: string};
+import { NavigationScreenProps } from 'react-navigation';
 
-export default class  SWDetail extends React.Component<DetailProps, any>{
+export default class  SWDetail extends React.Component<NavigationScreenProps, any>{
   itemUri: string;
-  constructor(props: DetailProps){
+  constructor(props: NavigationScreenProps){
     super(props)
-    this.itemUri = "https://swapi.co/api/" + this.props.category + "/" + this.props.id 
+    this.itemUri = "https://swapi.co/api/" + this.props.navigation.getParam('category') + "/" +this.props.navigation.getParam('id') 
     this.state = {
       dataSource: []
     }
@@ -54,7 +50,7 @@ export default class  SWDetail extends React.Component<DetailProps, any>{
     return (
       <View>
       {/* <Image source={this.itemUri + "/something.png"}/> */}
-      <Card title={this.props.title}>
+      <Card title={this.props.navigation.getParam('title')}>
         <View>
         <Text>
           Details

@@ -6,17 +6,12 @@ import {
   StyleSheet,
   ActivityIndicator
  } from 'react-native'
-import { createStackNavigator, NavigationContainer } from 'react-navigation';
+import { createStackNavigator, NavigationContainer, NavigationScreenProps } from 'react-navigation';
 import SWDetail from './SWDetail';
 
- export interface Props {
-  url: string;
-  field: string
-}
-
- export default class  SWList extends React.Component<Props, any>{
+ export default class  SWList extends React.Component<NavigationScreenProps, any>{
   listStack: NavigationContainer | undefined
-  constructor(props: Props){
+  constructor(props: NavigationScreenProps){
     super(props)
     this.state = {
       dataSource : []
@@ -27,25 +22,21 @@ import SWDetail from './SWDetail';
       return<TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
             <View style={styles.item}>
                     <View style={styles.details}>
-                      <Text style={styles.name}>{item[this.props.field]}</Text>
+                      <Text style={styles.name}>{item[this.props.navigation.getParam('field')]}</Text>
                     </View>
                     </View>
               </TouchableWithoutFeedback>
     }
   
     actionOnRow(item: any) {
-      this.listStack = createStackNavigator({
-        Tab: () =>  <SWList url={this.props.url} field={this.props.field}/>,
-        Details: () =>  <SWDetail category={'people'} id={item.id} title ={item.props.field}/>
-      });
-      this.props.navigation.navigate('SWDetail', {category: 'people', id:1, title:item[this.props.field]})
+      this.props.navigation.navigate('Details', {category: 'people', id:1, title:item[this.props.navigation.getParam('field')]})
       console.log('Selected Item :',item);
    }
   
     ItemSeparator = () => <View style={styles.separator} />;
   
     componentDidMount(){
-       fetch(this.props.url)
+       fetch(this.props.navigation.getParam('url'))
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
