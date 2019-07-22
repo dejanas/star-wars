@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {
   View,
@@ -6,16 +6,24 @@ import {
   StyleSheet,
   ActivityIndicator
  } from 'react-native'
+import { createStackNavigator, NavigationContainer } from 'react-navigation';
+import SWDetail from './SWDetail';
 
- export default class  SWList extends React.Component{
-  constructor(props){
+ export interface Props {
+  url: string;
+  field: string
+}
+
+ export default class  SWList extends React.Component<Props, any>{
+  listStack: NavigationContainer | undefined
+  constructor(props: Props){
     super(props)
     this.state = {
       dataSource : []
   };
   }
 
-    renderItem = (item) => {
+    renderItem = (item: any) => {
       return<TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
             <View style={styles.item}>
                     <View style={styles.details}>
@@ -25,7 +33,11 @@ import {
               </TouchableWithoutFeedback>
     }
   
-    actionOnRow(item) {
+    actionOnRow(item: any) {
+      this.listStack = createStackNavigator({
+        Tab: () =>  <SWList url={this.props.url} field={this.props.field}/>,
+        Details: () =>  <SWDetail category={'people'} id={item.id} title ={item.props.field}/>
+      });
       this.props.navigation.navigate('SWDetail', {category: 'people', id:1, title:item[this.props.field]})
       console.log('Selected Item :',item);
    }
@@ -56,7 +68,7 @@ import {
         <FlatList
           data={this.state.dataSource }
           keyExtractor={(_, i) => String(i)}
-          renderItem={item => this.renderItem}
+          renderItem={this.renderItem}
           navigation={this.props.navigation}
           ItemSeparatorComponent={this.ItemSeparator}
         />

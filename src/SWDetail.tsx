@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Card, Image } from 'react-native-elements';
-
-type DetailProps = { 
+  
+ export interface DetailProps {
   category: string,
   id: string
   title: string};
 
-export default class  SWDetail extends React.Component{
+export default class  SWDetail extends React.Component<DetailProps, any>{
   itemUri: string;
-  constructor(props: Readonly<DetailProps>){
+  constructor(props: DetailProps){
     super(props)
     this.itemUri = "https://swapi.co/api/" + this.props.category + "/" + this.props.id 
     this.state = {
@@ -18,7 +18,7 @@ export default class  SWDetail extends React.Component{
     }
   }
 
-  renderItem = (item) => {
+  renderItem = (item : any) => {
     return<TouchableWithoutFeedback onPress={ () => this.actionOnRow(item)}>
      <View style={styles.item}>
                     <View style={styles.details}>
@@ -28,7 +28,7 @@ export default class  SWDetail extends React.Component{
            </TouchableWithoutFeedback>
   }
   
-  actionOnRow(item) {
+  actionOnRow(item : any) {
     console.log('Selected Item :',item);
     //TODO: further linking
  }
